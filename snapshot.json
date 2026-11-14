@@ -1,0 +1,433 @@
+{
+  "date": "2026-11-14",
+  "round": 3,
+  "players": [
+    {
+      "pos": "1",
+      "name": "Tyrrell Hatton",
+      "score": "-9",
+      "strokes": 207,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "2",
+      "name": "Victor Perez",
+      "score": "-8",
+      "strokes": 208,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "3",
+      "name": "Mikael Lindberg",
+      "score": "-6",
+      "strokes": 210,
+      "tag": "PGA 9"
+    },
+    {
+      "pos": "T4",
+      "name": "Adam Scott",
+      "score": "-5",
+      "strokes": 211,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T4",
+      "name": "Francesco Laporta",
+      "score": "-5",
+      "strokes": 211,
+      "tag": "Korttijahti"
+    },
+    {
+      "pos": "T4",
+      "name": "Eugenio Chacarra",
+      "score": "-5",
+      "strokes": 211,
+      "tag": "PGA 1"
+    },
+    {
+      "pos": "T4",
+      "name": "Rory McIlroy",
+      "score": "-5",
+      "strokes": 211,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T8",
+      "name": "Dan Bradbury",
+      "score": "-4",
+      "strokes": 212,
+      "tag": "Korttijahti"
+    },
+    {
+      "pos": "T8",
+      "name": "Kristoffer Reitan",
+      "score": "-4",
+      "strokes": 212,
+      "tag": ""
+    },
+    {
+      "pos": "T8",
+      "name": "Jayden Schaper",
+      "score": "-4",
+      "strokes": 212,
+      "tag": "PGA 4"
+    },
+    {
+      "pos": "T11",
+      "name": "Matt Wallace",
+      "score": "-3",
+      "strokes": 213,
+      "tag": ""
+    },
+    {
+      "pos": "T11",
+      "name": "Joe Dean",
+      "score": "-3",
+      "strokes": 213,
+      "tag": "PGA 10"
+    },
+    {
+      "pos": "T11",
+      "name": "Jacob Skov Olesen",
+      "score": "-3",
+      "strokes": 213,
+      "tag": "PGA 6"
+    },
+    {
+      "pos": "T11",
+      "name": "Nacho Elvira",
+      "score": "-3",
+      "strokes": 213,
+      "tag": "Korttijahti"
+    },
+    {
+      "pos": "T11",
+      "name": "Jon Rahm",
+      "score": "-3",
+      "strokes": 213,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T11",
+      "name": "Freddy Schott",
+      "score": "-3",
+      "strokes": 213,
+      "tag": ""
+    },
+    {
+      "pos": "T17",
+      "name": "Niklas Nørgaard",
+      "score": "-2",
+      "strokes": 214,
+      "tag": ""
+    },
+    {
+      "pos": "T17",
+      "name": "Daniel Hillier",
+      "score": "-2",
+      "strokes": 214,
+      "tag": "PGA 5"
+    },
+    {
+      "pos": "T17",
+      "name": "Adrian Meronk",
+      "score": "-2",
+      "strokes": 214,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T20",
+      "name": "Jeff Winther",
+      "score": "-1",
+      "strokes": 215,
+      "tag": ""
+    },
+    {
+      "pos": "T20",
+      "name": "Hennie Du Plessis",
+      "score": "-1",
+      "strokes": 215,
+      "tag": ""
+    },
+    {
+      "pos": "T20",
+      "name": "Oliver Lindell",
+      "score": "-1",
+      "strokes": 215,
+      "tag": "Korttijahti"
+    },
+    {
+      "pos": "T20",
+      "name": "Calum Hill",
+      "score": "-1",
+      "strokes": 215,
+      "tag": ""
+    },
+    {
+      "pos": "T20",
+      "name": "David Puig",
+      "score": "-1",
+      "strokes": 215,
+      "tag": ""
+    },
+    {
+      "pos": "T25",
+      "name": "Grant Forrest",
+      "score": "E",
+      "strokes": 216,
+      "tag": ""
+    },
+    {
+      "pos": "T25",
+      "name": "Andy Sullivan",
+      "score": "E",
+      "strokes": 216,
+      "tag": "PGA 8"
+    },
+    {
+      "pos": "T25",
+      "name": "Joost Luiten",
+      "score": "E",
+      "strokes": 216,
+      "tag": ""
+    },
+    {
+      "pos": "T28",
+      "name": "Kota Kaneko",
+      "score": "+1",
+      "strokes": 217,
+      "tag": ""
+    },
+    {
+      "pos": "T28",
+      "name": "Marcus Armitage",
+      "score": "+1",
+      "strokes": 217,
+      "tag": ""
+    },
+    {
+      "pos": "T28",
+      "name": "Martin Couvra",
+      "score": "+1",
+      "strokes": 217,
+      "tag": ""
+    },
+    {
+      "pos": "T31",
+      "name": "Shaun Norris",
+      "score": "+2",
+      "strokes": 218,
+      "tag": ""
+    },
+    {
+      "pos": "T31",
+      "name": "Adrian Otaegui",
+      "score": "+2",
+      "strokes": 218,
+      "tag": ""
+    },
+    {
+      "pos": "T33",
+      "name": "Gregorio De Leo",
+      "score": "+3",
+      "strokes": 219,
+      "tag": ""
+    },
+    {
+      "pos": "T33",
+      "name": "Patrick Reed",
+      "score": "+3",
+      "strokes": 219,
+      "tag": "PGA 2"
+    },
+    {
+      "pos": "T33",
+      "name": "Tommy Fleetwood",
+      "score": "+3",
+      "strokes": 219,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T36",
+      "name": "Yuto Katsuragawa",
+      "score": "+4",
+      "strokes": 220,
+      "tag": ""
+    },
+    {
+      "pos": "T36",
+      "name": "Julien Guerrier",
+      "score": "+4",
+      "strokes": 220,
+      "tag": ""
+    },
+    {
+      "pos": "T36",
+      "name": "Davis Bryant",
+      "score": "+4",
+      "strokes": 220,
+      "tag": ""
+    },
+    {
+      "pos": "T36",
+      "name": "Ryan Fox",
+      "score": "+4",
+      "strokes": 220,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T36",
+      "name": "Bernd Wiesberger",
+      "score": "+4",
+      "strokes": 220,
+      "tag": "PGA 7"
+    },
+    {
+      "pos": "T36",
+      "name": "Jorge Campillo",
+      "score": "+4",
+      "strokes": 220,
+      "tag": ""
+    },
+    {
+      "pos": "T42",
+      "name": "Manuel Elvira",
+      "score": "+5",
+      "strokes": 221,
+      "tag": ""
+    },
+    {
+      "pos": "T42",
+      "name": "Aaron Rai",
+      "score": "+5",
+      "strokes": 221,
+      "tag": "PGA ennestään*"
+    },
+    {
+      "pos": "T42",
+      "name": "Ewen Ferguson",
+      "score": "+5",
+      "strokes": 221,
+      "tag": ""
+    },
+    {
+      "pos": "T42",
+      "name": "Matthew Jordan",
+      "score": "+5",
+      "strokes": 221,
+      "tag": ""
+    },
+    {
+      "pos": "T46",
+      "name": "Angel Ayora",
+      "score": "+6",
+      "strokes": 222,
+      "tag": "Korttijahti"
+    },
+    {
+      "pos": "T46",
+      "name": "Frederic Lacroix",
+      "score": "+6",
+      "strokes": 222,
+      "tag": ""
+    },
+    {
+      "pos": "T46",
+      "name": "Angel Hidalgo",
+      "score": "+6",
+      "strokes": 222,
+      "tag": ""
+    },
+    {
+      "pos": "49",
+      "name": "Casey Jarvis",
+      "score": "+9",
+      "strokes": 225,
+      "tag": "PGA 3"
+    },
+    {
+      "pos": "50",
+      "name": "Thriston Lawrence",
+      "score": "+15",
+      "strokes": 231,
+      "tag": ""
+    }
+  ],
+  "ranking": [
+    {
+      "rank": 1,
+      "name": "Eugenio Chacarra",
+      "r2d": 1
+    },
+    {
+      "rank": 2,
+      "name": "Patrick Reed",
+      "r2d": 4
+    },
+    {
+      "rank": 3,
+      "name": "Casey Jarvis",
+      "r2d": 5
+    },
+    {
+      "rank": 4,
+      "name": "Jayden Schaper",
+      "r2d": 7
+    },
+    {
+      "rank": 5,
+      "name": "Daniel Hillier",
+      "r2d": 10
+    },
+    {
+      "rank": 6,
+      "name": "Jacob Skov Olesen",
+      "r2d": 12
+    },
+    {
+      "rank": 7,
+      "name": "Bernd Wiesberger",
+      "r2d": 13
+    },
+    {
+      "rank": 8,
+      "name": "Andy Sullivan",
+      "r2d": 14
+    },
+    {
+      "rank": 9,
+      "name": "Mikael Lindberg",
+      "r2d": 15
+    },
+    {
+      "rank": 10,
+      "name": "Joe Dean",
+      "r2d": 16
+    },
+    {
+      "rank": 11,
+      "name": "Oliver Lindell",
+      "r2d": 17
+    },
+    {
+      "rank": 12,
+      "name": "Francesco Laporta",
+      "r2d": 18
+    },
+    {
+      "rank": 13,
+      "name": "Nacho Elvira",
+      "r2d": 20
+    },
+    {
+      "rank": 14,
+      "name": "Angel Ayora",
+      "r2d": 21
+    },
+    {
+      "rank": 15,
+      "name": "Dan Bradbury",
+      "r2d": 22
+    }
+  ]
+}
