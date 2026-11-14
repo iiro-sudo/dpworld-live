@@ -1,0 +1,231 @@
+
+name: Paivita DP World Tour tulokset
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sportradar-snapshot
+  cancel-in-progress: false
+
+jobs:
+  paivita:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Hae repositorio
+        uses: actions/checkout@v4
+
+      - name: Paivita snapshot
+        env:
+          SPORTRADAR_API_KEY: ${{ secrets.SPORTRADAR_API_KEY }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import json
+          import sys
+          import urllib.request
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          key = os.environ.get("SPORTRADAR_API_KEY")
+          if not key:
+              sys.exit("API-avain puuttuu")
+
+          now = datetime.now(timezone.utc)
+
+          # Ajastettu haku vain finaalipaivana.
+          # Manuaalinen testi toimii muulloinkin.
+          if os.environ.get("EVENT_NAME") == "schedule":
+              if now.date().isoformat() != "2026-11-15":
+                  print("Ei kilpailun finaalipaiva - ohitetaan")
+                  sys.exit(0)
+              if not 5 <= now.hour < 20:
+                  print("Kilpailun seuranta-ajan ulkopuolella")
+                  sys.exit(0)
+
+          tournament_id = (
+              "5cb4d159-8ee1-4239-b8cc-de4746e6d1d0"
+          )
+
+          url = (
+              "https://api.sportradar.com/golf/"
+              "trial/euro/v3/en/2026/tournaments/"
+              f"{tournament_id}/leaderboard.json"
+          )
+
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "x-api-key": key,
+                  "accept": "application/json"
+              }
+          )
+
+          with urllib.request.urlopen(
+              request, timeout=30
+          ) as response:
+              data = json.load(response)
+
+          if data.get("id") != tournament_id:
+              sys.exit("Virheellinen kilpailun ID")
+
+          players = data.get("leaderboard")
+
+          if not isinstance(players, list):
+              sys.exit("Tulostaulukon rakenne muuttunut")
+
+          if len(players) < 45:
+              sys.exit("Liian vahan pelaajia")
+
+          path = Path("snapshot.json")
+          snapshot = json.loads(
+              path.read_text(encoding="utf-8")
+          )
+
+          aliases = {
+              "Eugenio Lopez-Chacarra": "Eugenio Chacarra",
+              "Jayden Trey Schaper": "Jayden Schaper",
+              "Niklas Nørgaard Møller": "Niklas Nørgaard",
+              "Angel Ayora Fanegas": "Angel Ayora",
+          }
+
+          positions = {}
+          for p in players:
+              position = p.get("position")
+              if not isinstance(position, int):
+                  sys.exit("Pelaajan sijoitus puuttuu")
+              positions[position] = (
+                  positions.get(position, 0) + 1
+              )
+
+          result = []
+          names = set()
+
+          for p in players:
+              name = p.get("name")
+              position = p.get("position")
+              score = p.get("score")
+              strokes = p.get("strokes")
+
+              if not isinstance(name, str) or not name:
+                  sys.exit("Pelaajan nimi puuttuu")
+
+              if not isinstance(score, int):
+                  sys.exit("Virheellinen tulos")
+
+              if not isinstance(strokes, int) or strokes <= 0:
+                  sys.exit("Virheellinen lyontimaara")
+
+              name = aliases.get(name, name)
+
+              if name in names:
+                  sys.exit("Sama pelaaja kahdesti")
+              names.add(name)
+
+              pos = str(position)
+              if positions[position] > 1:
+                  pos = "T" + pos
+
+              if score == 0:
+                  score_text = "E"
+              elif score > 0:
+                  score_text = "+" + str(score)
+              else:
+                  score_text = str(score)
+
+              result.append({
+                  "pos": pos,
+                  "name": name,
+                  "score": score_text,
+                  "strokes": strokes
+              })
+
+          if "Oliver Lindell" not in names:
+              sys.exit("Oliver Lindell puuttuu")
+
+          result.sort(
+              key=lambda p: (
+                  int(p["pos"].lstrip("T")),
+                  p["name"]
+              )
+          )
+
+          # Paivitetaan vain tulostaulukko.
+          # PGA-korttien ranking sailyy koskemattomana.
+          snapshot["players"] = result
+
+          # Kilpailun paiva Sportradarin UTC-haun ajalta.
+          snapshot["date"] = now.date().isoformat()
+
+          # Kierrosnumero paivittyy vain jos API:n
+          # kierrostiedot voidaan tulkita varmasti.
+          rounds = data.get("rounds", [])
+          active_rounds = []
+          if isinstance(rounds, list):
+              for r in rounds:
+                  if not isinstance(r, dict):
+                      continue
+                  number = r.get("number")
+                  status = str(
+                      r.get("status", "")
+                  ).lower()
+                  if (
+                      isinstance(number, int)
+                      and 1 <= number <= 4
+                      and status in (
+                          "inprogress", "in_progress",
+                          "closed", "complete",
+                          "completed"
+                      )
+                  ):
+                      active_rounds.append(number)
+
+          if active_rounds:
+              snapshot["round"] = max(
+                  int(snapshot.get("round", 3)),
+                  max(active_rounds)
+              )
+
+          path.write_text(
+              json.dumps(
+                  snapshot,
+                  ensure_ascii=False,
+                  indent=2
+              ) + "\n",
+              encoding="utf-8"
+          )
+
+          print("Kilpailu:", data.get("name"))
+          print("Tila:", data.get("status"))
+          print("Pelaajia:", len(result))
+          print("Kierros:", snapshot["round"])
+          print("Oliver:", next(
+              p for p in result
+              if p["name"] == "Oliver Lindell"
+          ))
+          print("Ranking-riveja:",
+                len(snapshot.get("ranking", [])))
+          PY
+
+      - name: Tallenna muutokset GitHubiin
+        run: |
+          if git diff --quiet -- snapshot.json; then
+            echo "Ei muutoksia tuloksissa"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add snapshot.json
+          git commit -m "Paivita DP World Tour tulokset"
+          git push
