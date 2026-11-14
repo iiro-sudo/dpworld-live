@@ -1,0 +1,77 @@
+
+name: Sportradar API - testi
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testaa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Testaa DP World Tour API
+        env:
+          SPORTRADAR_API_KEY: ${{ secrets.SPORTRADAR_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import json
+          import urllib.request
+          import urllib.error
+          import sys
+
+          key = os.environ.get("SPORTRADAR_API_KEY")
+          if not key:
+              sys.exit("API-avain puuttuu GitHub Secretsista")
+
+          url = (
+              "https://api.sportradar.com/golf/"
+              "trial/euro/v3/en/2026/"
+              "tournaments/schedule.json"
+          )
+
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "x-api-key": key,
+                  "accept": "application/json"
+              }
+          )
+
+          try:
+              with urllib.request.urlopen(
+                  request, timeout=30
+              ) as response:
+                  data = json.load(response)
+
+              tournaments = data.get("tournaments", [])
+              print("HTTP 200 - API-yhteys toimii")
+              print("Kilpailuja:", len(tournaments))
+
+              matches = [
+                  t for t in tournaments
+                  if "world tour championship"
+                  in t.get("name", "").lower()
+              ]
+
+              for t in matches:
+                  print("Kilpailu:", t.get("name"))
+                  print("ID:", t.get("id"))
+                  print("Alkaa:", t.get("start_date"))
+                  print("Tila:", t.get("status"))
+
+              if not matches:
+                  sys.exit(
+                      "API toimii, mutta kilpailua ei loytynyt"
+                  )
+
+          except urllib.error.HTTPError as error:
+              print("HTTP-virhe:", error.code)
+              sys.exit(1)
+          except Exception as error:
+              print("Virhe:", type(error).__name__, str(error))
+              sys.exit(1)
+          PY
