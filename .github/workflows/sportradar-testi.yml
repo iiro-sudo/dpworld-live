@@ -1,5 +1,5 @@
 
-name: Sportradar API - testi
+name: Sportradar API - tulostaulukko
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Testaa DP World Tour API
+      - name: Hae DP World Tour Championship tulokset
         env:
           SPORTRADAR_API_KEY: ${{ secrets.SPORTRADAR_API_KEY }}
         run: |
@@ -25,12 +25,16 @@ jobs:
 
           key = os.environ.get("SPORTRADAR_API_KEY")
           if not key:
-              sys.exit("API-avain puuttuu GitHub Secretsista")
+              sys.exit("API-avain puuttuu")
+
+          tournament_id = (
+              "5cb4d159-8ee1-4239-b8cc-de4746e6d1d0"
+          )
 
           url = (
               "https://api.sportradar.com/golf/"
-              "trial/euro/v3/en/2026/"
-              "tournaments/schedule.json"
+              "trial/euro/v3/en/2026/tournaments/"
+              f"{tournament_id}/leaderboard.json"
           )
 
           request = urllib.request.Request(
@@ -47,31 +51,75 @@ jobs:
               ) as response:
                   data = json.load(response)
 
-              tournaments = data.get("tournaments", [])
-              print("HTTP 200 - API-yhteys toimii")
-              print("Kilpailuja:", len(tournaments))
+              tournament = data.get("tournament", {})
+              leaderboard = data.get("leaderboard", {})
 
-              matches = [
-                  t for t in tournaments
-                  if "world tour championship"
-                  in t.get("name", "").lower()
+              if isinstance(leaderboard, dict):
+                  players = leaderboard.get("players", [])
+                  if not players:
+                      players = leaderboard.get("player", [])
+              elif isinstance(leaderboard, list):
+                  players = leaderboard
+              else:
+                  players = []
+
+              print("HTTP 200 - tulostaulukko vastaanotettu")
+              print("Kilpailu:", tournament.get("name"))
+              print("Tila:", tournament.get("status"))
+              print("Pelaajia:", len(players))
+              print("JSON-juuren kentat:", list(data.keys()))
+              print("Tulostaulukon tyyppi:",
+                    type(leaderboard).__name__)
+
+              if isinstance(leaderboard, dict):
+                  print("Tulostaulukon kentat:",
+                        list(leaderboard.keys()))
+
+              if not players:
+                  sys.exit(
+                      "Pelaajalistaa ei loytynyt "
+                      "odotetusta rakenteesta"
+                  )
+
+              for player in players:
+                  first = player.get("first_name", "")
+                  last = player.get("last_name", "")
+                  name = player.get("name") or (
+                      first + " " + last
+                  ).strip()
+
+                  print(
+                      "PELAAJA:",
+                      name,
+                      "| sija:", player.get("position"),
+                      "| tulos:", player.get("score"),
+                      "| lyonnit:", player.get("strokes")
+                  )
+
+              lindell = [
+                  p for p in players
+                  if "lindell" in (
+                      str(p.get("last_name", "")) + " " +
+                      str(p.get("name", ""))
+                  ).lower()
               ]
 
-              for t in matches:
-                  print("Kilpailu:", t.get("name"))
-                  print("ID:", t.get("id"))
-                  print("Alkaa:", t.get("start_date"))
-                  print("Tila:", t.get("status"))
-
-              if not matches:
+              if not lindell:
                   sys.exit(
-                      "API toimii, mutta kilpailua ei loytynyt"
+                      "Oliver Lindellia ei loytynyt "
+                      "pelaajalistasta"
                   )
+
+              print("OK - Oliver Lindell loytyi!")
 
           except urllib.error.HTTPError as error:
               print("HTTP-virhe:", error.code)
               sys.exit(1)
           except Exception as error:
-              print("Virhe:", type(error).__name__, str(error))
+              print(
+                  "Virhe:",
+                  type(error).__name__,
+                  str(error)
+              )
               sys.exit(1)
           PY
