@@ -1,4 +1,3 @@
-
 [build]
   command = "echo Building DP World Tour tracker"
   publish = "."
@@ -8,4 +7,3 @@
   from = "/api/leaderboard"
   to = "/.netlify/functions/leaderboard"
   status = 200
-
