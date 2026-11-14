@@ -109,11 +109,18 @@ jobs:
           result = []
           names = set()
 
-          for p in players:
-              name = p.get("name")
-              position = p.get("position")
-              score = p.get("score")
-              strokes = p.get("strokes")
+          
+for p in players:
+    first = p.get("first_name") or ""
+    last = p.get("last_name") or ""
+
+    name = p.get("name") or (
+        first + " " + last
+    ).strip()
+
+    position = p.get("position")
+    score = p.get("score")
+    strokes = p.get("strokes")
 
               if not isinstance(name, str) or not name:
                   sys.exit("Pelaajan nimi puuttuu")
