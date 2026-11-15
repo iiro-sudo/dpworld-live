@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fi">
 <head>
@@ -34,28 +35,24 @@ footer{margin-top:30px;padding-bottom:30px}
 <div class="cards">
   <div class="card"><span class="muted small">Lindell kilpailussa</span><strong id="lindellScore">–</strong></div>
   <div class="card"><span class="muted small">Ennustetut R2D-pisteet</span><strong id="lindellPoints">–</strong></div>
-  <div class="card"><span class="muted small">PGA-korttiennuste 14.11.</span><strong id="pgaPosition">–</strong></div>
+  <div class="card"><span class="muted small">Paras mahdollinen korttisija*</span><strong id="pgaPosition">–</strong></div>
 </div>
 <div class="status" id="status">Ladataan kilpailutuloksia...</div>
 <p><button id="refreshButton" onclick="refresh()">Tarkista nyt</button> <span class="muted small" id="updated"></span></p>
 <h2 id="leaderboardTitle">Kilpailun tulokset</h2>
 <p class="muted small" id="leaderboardInfo">Ladataan tulostaulukkoa...</p>
-<div class="tablewrap"><table><thead><tr><th>Sija</th><th>Pelaaja</th><th class="num">Tulos</th><th class="num">Lyönnit</th><th class="num">PGA-sija 14.11.*</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th>Sija</th><th>Pelaaja</th><th class="num">Tulos</th><th class="num">Lyönnit</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
 <h2>Laskennallinen pistevertailu</h2>
 <p class="muted small" id="forecastInfo">Odotetaan laskennan tietoja...</p>
 <div class="status" id="lindellAnalysis">Ladataan pistevertailua...</div>
 <div class="tablewrap"><table><thead><tr><th>Vertailusija</th><th>Pelaaja</th><th class="num">Kilpailupisteet</th><th class="num">Yhteensä</th><th class="num">Ero Lindelliin</th></tr></thead><tbody id="forecastTable"></tbody></table></div>
 <p class="notice small">Tämä on <strong>osittainen pistevertailu</strong>, ei virallinen PGA-korttiranking. Vertailussa on vain ne pelaajat, joiden lähtöpisteet ovat laskennan käytettävissä. Korttipaikan varmistumista tai todellista korttisijaa ei voi päätellä tästä taulukosta.</p>
-<h2>PGA Tour -korttiennuste 14.11.2026</h2>
-<p class="muted small">Kolmannen kierroksen jälkeinen historiallinen ennuste. Kortteja jaetaan kymmenen. Alla oleva taulukko ei päivity kilpailun mukana.</p>
-<div class="tablewrap"><table><thead><tr><th>Korttisija</th><th>Pelaaja</th><th class="num">R2D-sija</th><th>Tilanne 14.11.</th></tr></thead><tbody id="cardRanking"></tbody></table></div>
 <footer class="small muted">
 <strong>Lähteet ja päivitykset</strong>
 <p>Kilpailutulokset: Sportradar Golf API. GitHub Actions hakee tulokset ja laskee osittaisen pistevertailun `snapshot.json`-tiedostoon. Netlify julkaisee GitHubiin tallennetut päivitykset.</p>
 <p>Selain tarkistaa tiedoston automaattisesti kahden minuutin välein. Päivitys näkyy GitHub Actionsin ja Netlifyn julkaisun jälkeen.</p>
-<p><a target="_blank" rel="noopener" href="https://www.europeantour.com/dpworld-tour/news/articles/detail/pga-tour-dual-membership-what-s-at-stake-on-the-final-day-of-dp-world-tour-championship/">DP World Tour – PGA-korttiennuste 14.11.2026</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.europeantour.com/dpworld-tour/dp-world-tour-championship-2026/">DP World Tour – kilpailun virallinen sivu</a></p>
-<p>* PGA-sija 14.11. tarkoittaa vanhan korttiennusteen sijoitusta, ei nykyistä korttisijaa.</p>
+<p>* Paras mahdollinen korttisija on osittaisen vertailun alaraja, ei vahvistettu PGA-korttisija. Lindbergin korttipaikka on oletus.</p>
 </footer>
 </main>
 <script>
@@ -66,24 +63,20 @@ const scoreText=value=>String(value??"–").replace(/-/g,"−");
 const fmt=value=>Number.isFinite(Number(value))?new Intl.NumberFormat("fi-FI",{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(value)):"–";
 function formatDate(value){if(!/^\d{4}-\d{2}-\d{2}$/.test(value||""))return value||"tuntematon";const [y,m,d]=value.split("-");return `${d}.${m}.${y}`;}
 function render(){
- const players=snapshot.players,ranks=snapshot.ranking,forecast=snapshot.pga_forecast_test;
+ const players=snapshot.players,forecast=snapshot.pga_forecast_test;
  const round=Number(snapshot.round),date=formatDate(snapshot.date);
- const rankOf=name=>ranks.find(r=>r.name===name)?.rank;
  const lindell=players.find(p=>p.name==="Oliver Lindell");
- const oldLindell=ranks.find(r=>r.name==="Oliver Lindell");
  $("leaderboardTitle").textContent="Kilpailun tulokset";
- $("leaderboardInfo").textContent=`Tulostiedoston päiväys ${date}. Pelaajia: ${players.length}. Kierroskenttä: ${round}. Kilpailusijoitukset päivittyvät Sportradarista. PGA-sijat viimeisessä sarakkeessa ovat 14.11. ennusteesta.`;
- $("leaderboard").innerHTML=players.map(p=>{const rank=rankOf(p.name);return `<tr class="${p.name==="Oliver Lindell"?"lindell":rank&&rank<=10?"qualified":""}"><td>${escapeHtml(p.pos)}</td><td>${escapeHtml(p.name)}</td><td class="num">${escapeHtml(scoreText(p.score))}</td><td class="num">${escapeHtml(p.strokes)}</td><td class="num">${rank??""}</td></tr>`;}).join("");
+ $("leaderboardInfo").textContent=`Tulostiedoston päiväys ${date}. Pelaajia: ${players.length}. Kierroskenttä: ${round}. Kilpailusijoitukset päivittyvät Sportradarista.`;
+ $("leaderboard").innerHTML=players.map(p=>`<tr class="${p.name==="Oliver Lindell"?"lindell":""}"><td>${escapeHtml(p.pos)}</td><td>${escapeHtml(p.name)}</td><td class="num">${escapeHtml(scoreText(p.score))}</td><td class="num">${p.strokes==null?"–":escapeHtml(p.strokes)}</td></tr>`).join("");
  $("lindellScore").textContent=lindell?`${lindell.pos} · ${scoreText(lindell.score)}`:"Ei tietoa";
- $("pgaPosition").textContent=oldLindell?`${oldLindell.rank} / 10`:"Ei tietoa";
- $("pgaPosition").className="muted";
- $("cardRanking").innerHTML=ranks.map(r=>`<tr class="${r.name==="Oliver Lindell"?"lindell":r.rank<=10?"qualified":""}"><td>${escapeHtml(r.rank)}</td><td>${escapeHtml(r.name)}</td><td class="num">${escapeHtml(r.r2d)}</td><td class="${r.rank<=10?"success":"danger"}">${r.rank<=10?"Korttipaikalla":"Ulkopuolella"}</td></tr>`).join("");
+ $("pgaPosition").textContent="–";
  const valid=forecast&&forecast.status==="partial"&&Array.isArray(forecast.players);
  const rows=valid?forecast.players.filter(p=>p&&typeof p.name==="string"&&Number.isFinite(Number(p.total_points))):[];
  const oliver=rows.find(p=>p.name==="Oliver Lindell");
  if(!valid||!oliver){
    $("lindellPoints").textContent="–";
-   $("forecastInfo").textContent="Pistevertailun testiaineistoa ei ole vielä saatavilla. Vanha korttiennuste näkyy alempana.";
+   $("forecastInfo").textContent="Pistevertailun tietoja ei ole vielä saatavilla.";
    $("lindellAnalysis").textContent="Laskennan tuloksia odotetaan. Tarkista GitHub Actionsin Calculate PGA card forecast -vaihe.";
    $("forecastTable").innerHTML="";
    return;
@@ -91,11 +84,15 @@ function render(){
  const oliverPoints=Number(oliver.total_points);
  $("lindellPoints").textContent=fmt(oliverPoints);
  const calculated=Number(forecast.players_calculated)||rows.length;
- $("forecastInfo").textContent=`Laskennassa mukana ${calculated} pelaajaa. Pisteet päivittyvät snapshot.json-tiedostosta kilpailusijoitusten muuttuessa. Vertailusija ei ole PGA-korttisija.`;
+ $("forecastInfo").textContent=`Laskennassa mukana ${calculated} pelaajaa. Pisteet päivittyvät snapshot.json-tiedostosta kilpailusijoitusten muuttuessa. Vertailusija ei ole PGA-korttisija. Lindbergin kortti käsitellään erillisenä oletuksena vain, jos oletus löytyy päivitystiedostosta.`;
  const sorted=[...rows].sort((a,b)=>Number(b.total_points)-Number(a.total_points));
  const partialRank=sorted.findIndex(p=>p.name==="Oliver Lindell")+1;
  const ahead=sorted.filter(p=>Number(p.total_points)>oliverPoints).length;
- $("lindellAnalysis").innerHTML=`<p><strong>Oliver Lindell:</strong> ${fmt(oliverPoints)} ennustettua Race to Dubai -pistettä.</p><p>Tunnetuista vertailupelaajista ${ahead} on Lindellin edellä. Lindellin sijoitus tässä <strong>osittaisessa</strong> pistevertailussa on ${partialRank}/${sorted.length}.</p><p class="small muted">Pistevertailu ei vielä huomioi kaikkia korttiehdokkaita, joten varsinaista PGA-korttisijaa tai eroa kymmenenteen korttipaikkaan ei voi vahvistaa.</p>`;
+ const lindbergAssumed=forecast.assumptions?.mikael_lindberg_card===true;
+ const lowerBound=ahead+1+(lindbergAssumed?1:0);
+ $("pgaPosition").textContent=lindbergAssumed?`${lowerBound}. / 10*`:"Ei arviota";
+ const assumptionText=lindbergAssumed?`<p><strong>Oletus:</strong> Mikael Lindberg saa yhden kymmenestä PGA-kortista. Hänen lähtöpisteitään ei ole laskennassa, eikä korttia ole vielä vahvistettu. Tällä oletuksella Lindellin paras mahdollinen sijoitus nykyisen vertailun perusteella on <strong>${lowerBound}.</strong> Puuttuvat ehdokkaat voivat pudottaa sijoitusta.</p>`:"";
+ $("lindellAnalysis").innerHTML=`<p><strong>Oliver Lindell:</strong> ${fmt(oliverPoints)} ennustettua Race to Dubai -pistettä.</p><p>Tunnetuista vertailupelaajista ${ahead} on Lindellin edellä. Lindellin sijoitus tässä <strong>osittaisessa</strong> pistevertailussa on ${partialRank}/${sorted.length}.</p>${assumptionText}<p class="small muted">Pistevertailu ei vielä huomioi kaikkia korttiehdokkaita, joten varsinaista PGA-korttisijaa tai eroa kymmenenteen korttipaikkaan ei voi vahvistaa.</p>`;
  $("forecastTable").innerHTML=sorted.map((p,i)=>{const diff=Number(p.total_points)-oliverPoints;const diffText=Math.abs(diff)<0.005?"0,00":`${diff>0?"+":"−"}${fmt(Math.abs(diff))}`;return `<tr class="${p.name==="Oliver Lindell"?"lindell":""}"><td>${i+1}</td><td>${escapeHtml(p.name)}</td><td class="num">${fmt(p.event_points)}</td><td class="num">${fmt(p.total_points)}</td><td class="num">${diffText}</td></tr>`;}).join("");
 }
 async function refresh(){
@@ -104,11 +101,11 @@ async function refresh(){
   const response=await fetch("/snapshot.json?t="+Date.now(),{cache:"no-store"});
   if(!response.ok)throw new Error("HTTP "+response.status);
   const raw=await response.text(),next=JSON.parse(raw);
-  if(!Array.isArray(next.players)||!Array.isArray(next.ranking)||typeof next.date!=="string"||!Number.isInteger(next.round))throw new Error("Tulostiedoston rakenne on virheellinen");
+  if(!Array.isArray(next.players)||typeof next.date!=="string"||!Number.isInteger(next.round))throw new Error("Tulostiedoston rakenne on virheellinen");
   const changed=raw!==lastContent,firstLoad=lastContent===null;
   snapshot=next;lastContent=raw;if(changed)render();
   const message=firstLoad?"Tulostiedosto ladattu onnistuneesti.":changed?"Tulostiedosto on muuttunut edellisen tarkistuksen jälkeen.":"Ei muutoksia edelliseen tarkistukseen.";
-  $("status").textContent=`Kilpailutulokset: ${formatDate(snapshot.date)}. ${message} Sportradar-pohjainen osittainen pistevertailu päivittyy tulosten mukana. PGA-korttiranking 14.11. on erillinen historiallinen ennuste.`;
+  $("status").textContent=`Kilpailutulokset: ${formatDate(snapshot.date)}. ${message} Sportradar-pohjainen osittainen pistevertailu päivittyy tulosten mukana.`;
   $("updated").textContent=" Tarkistettu "+new Date().toLocaleTimeString("fi-FI");
  }catch(error){$("status").textContent="Tietojen tarkistus epäonnistui: "+error.message+". Näytetään viimeksi ladatut tiedot, jos saatavilla.";$("updated").textContent=" Tarkistus epäonnistui "+new Date().toLocaleTimeString("fi-FI");}
  finally{loading=false;$("refreshButton").disabled=false;}
