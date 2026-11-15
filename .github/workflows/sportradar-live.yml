@@ -49,6 +49,7 @@ jobs:
               sys.exit("Missing API key")
 
           tournament_id = "5cb4d159-8ee1-4239-b8cc-de4746e6d1d0"
+
           url = (
               "https://api.sportradar.com/golf/"
               "trial/euro/v3/en/2026/tournaments/"
@@ -63,21 +64,30 @@ jobs:
               }
           )
 
-          with urllib.request.urlopen(request, timeout=30) as response:
+          with urllib.request.urlopen(
+              request, timeout=30
+          ) as response:
               data = json.load(response)
 
           if data.get("id") != tournament_id:
               sys.exit("Wrong tournament")
 
           players = data.get("leaderboard")
-          if not isinstance(players, list) or len(players) < 45:
+
+          if (
+              not isinstance(players, list)
+              or len(players) < 45
+          ):
               sys.exit("Invalid leaderboard")
 
           positions = {}
+
           for player in players:
               pos = player.get("position")
+
               if not isinstance(pos, int):
                   sys.exit("Invalid position")
+
               positions[pos] = positions.get(pos, 0) + 1
 
           aliases = {
@@ -92,6 +102,7 @@ jobs:
           for player in players:
               first = player.get("first_name") or ""
               last = player.get("last_name") or ""
+
               name = player.get("name") or (
                   first + " " + last
               ).strip()
@@ -107,10 +118,15 @@ jobs:
 
               if not isinstance(score, int):
                   sys.exit("Invalid score")
-              if not isinstance(strokes, int) or strokes <= 0:
+
+              if (
+                  not isinstance(strokes, int)
+                  or strokes <= 0
+              ):
                   sys.exit("Invalid strokes")
 
               pos = str(position)
+
               if positions[position] > 1:
                   pos = "T" + pos
 
@@ -128,10 +144,15 @@ jobs:
                   "strokes": strokes
               })
 
-          if len(set(p["name"] for p in result)) != len(result):
+          if len(set(
+              p["name"] for p in result
+          )) != len(result):
               sys.exit("Duplicate players")
 
-          if not any(p["name"] == "Oliver Lindell" for p in result):
+          if not any(
+              p["name"] == "Oliver Lindell"
+              for p in result
+          ):
               sys.exit("Oliver Lindell missing")
 
           result.sort(
@@ -142,24 +163,35 @@ jobs:
           )
 
           path = Path("snapshot.json")
-          snapshot = json.loads(path.read_text(encoding="utf-8"))
+
+          snapshot = json.loads(
+              path.read_text(encoding="utf-8")
+          )
 
           snapshot["players"] = result
           snapshot["date"] = now.date().isoformat()
 
           rounds = data.get("rounds", [])
+
           if isinstance(rounds, list):
               for r in rounds:
                   if not isinstance(r, dict):
                       continue
+
                   number = r.get("number")
-                  status = str(r.get("status", "")).lower()
+                  status = str(
+                      r.get("status", "")
+                  ).lower()
+
                   if (
                       isinstance(number, int)
                       and 1 <= number <= 4
                       and status in (
-                          "inprogress", "in_progress",
-                          "closed", "complete", "completed"
+                          "inprogress",
+                          "in_progress",
+                          "closed",
+                          "complete",
+                          "completed"
                       )
                   ):
                       snapshot["round"] = max(
@@ -179,86 +211,81 @@ jobs:
           print("Tournament:", data.get("name"))
           print("Players:", len(result))
           print("Round:", snapshot.get("round"))
+
           print("Oliver:", next(
               p for p in result
               if p["name"] == "Oliver Lindell"
           ))
-          print("PGA ranking preserved:",
-                len(snapshot.get("ranking", [])))
+
+          print(
+              "PGA ranking preserved:",
+              len(snapshot.get("ranking", []))
+          )
           PY
 
       - name: Calculate PGA card forecast
         run: |
           python3 - <<'PY'
           import json
+          from pathlib import Path
           from korttiennuste import calculate, BASE_POINTS
 
-          with open("snapshot.json", encoding="utf-8") as f:
-              snapshot = json.load(f)
+          path = Path("snapshot.json")
+          snapshot = json.loads(
+              path.read_text(encoding="utf-8")
+          )
 
           forecast = calculate(
               snapshot["players"],
               BASE_POINTS
           )
 
-          print("PGA card forecast - partial test")
-          print("Players calculated:", len(forecast))
-
-          for player in forecast:
-              print(
-                  player["rank"],
-                  player["name"],
-                  player["total_points"]
-              )
-
           lindell = next(
               p for p in forecast
               if p["name"] == "Oliver Lindell"
           )
 
-          print("Oliver partial ranking:", lindell["rank"])
-          print(
-              "WARNING: Incomplete starting points. "
-              "Not publishing this ranking."
-          )
-          PY
-          
-      - name: Calculate PGA card forecast
-        run: |
-          python3 - <<'PY'
-          import json
-          from korttiennuste import calculate, BASE_POINTS
-
-          with open("snapshot.json", encoding="utf-8") as f:
-              snapshot = json.load(f)
-
-          forecast = calculate(
-              snapshot["players"],
-              BASE_POINTS
-          )
-
-          print("PGA card forecast - partial test")
-          print("Players calculated:", len(forecast))
-
-          for player in forecast:
-              print(
-                  player["rank"],
-                  player["name"],
-                  player["total_points"]
+          # Testitulokset erilleen nykyisestä
+          # sivustolla näkyvästä rankingista.
+          snapshot["pga_forecast_test"] = {
+              "status": "partial",
+              "players_calculated": len(forecast),
+              "eligible_base_count": len(BASE_POINTS),
+              "oliver_partial_rank": lindell["rank"],
+              "oliver_projected_points": lindell["total_points"],
+              "players": forecast,
+              "warning": (
+                  "Partial ranking only. "
+                  "Missing eligible players may change "
+                  "the PGA card positions."
               )
+          }
 
-          lindell = next(
-              p for p in forecast
-              if p["name"] == "Oliver Lindell"
+          path.write_text(
+              json.dumps(
+                  snapshot,
+                  ensure_ascii=False,
+                  indent=2
+              ) + "\n",
+              encoding="utf-8"
           )
 
-          print("Oliver partial ranking:", lindell["rank"])
           print(
-              "WARNING: Incomplete starting points. "
-              "Not publishing this ranking."
+              "Forecast calculated:",
+              len(forecast)
+          )
+          print(
+              "Oliver partial rank:",
+              lindell["rank"]
+          )
+          print(
+              "Oliver projected points:",
+              lindell["total_points"]
+          )
+          print(
+              "Forecast saved to snapshot.json"
           )
           PY
-
 
       - name: Commit updated results
         run: |
@@ -271,7 +298,7 @@ jobs:
           fi
 
           git add snapshot.json
-          git commit -m "Update DP World Tour leaderboard"
+          git commit -m "Update DP World Tour leaderboard and PGA forecast"
 
           for attempt in 1 2 3 4 5; do
             echo "Push attempt $attempt"
@@ -289,7 +316,3 @@ jobs:
 
           echo "Failed to push after 5 attempts"
           exit 1
-
-      
-      
-
