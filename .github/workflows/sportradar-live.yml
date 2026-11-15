@@ -222,6 +222,43 @@ jobs:
               "Not publishing this ranking."
           )
           PY
+          
+      - name: Calculate PGA card forecast
+        run: |
+          python3 - <<'PY'
+          import json
+          from korttiennuste import calculate, BASE_POINTS
+
+          with open("snapshot.json", encoding="utf-8") as f:
+              snapshot = json.load(f)
+
+          forecast = calculate(
+              snapshot["players"],
+              BASE_POINTS
+          )
+
+          print("PGA card forecast - partial test")
+          print("Players calculated:", len(forecast))
+
+          for player in forecast:
+              print(
+                  player["rank"],
+                  player["name"],
+                  player["total_points"]
+              )
+
+          lindell = next(
+              p for p in forecast
+              if p["name"] == "Oliver Lindell"
+          )
+
+          print("Oliver partial ranking:", lindell["rank"])
+          print(
+              "WARNING: Incomplete starting points. "
+              "Not publishing this ranking."
+          )
+          PY
+
 
       - name: Commit updated results
         run: |
