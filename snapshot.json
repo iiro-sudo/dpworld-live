@@ -6,301 +6,301 @@
       "pos": "1",
       "name": "Tyrrell Hatton",
       "score": "-15",
-      "strokes": 261
+      "strokes": null
     },
     {
       "pos": "2",
       "name": "Rory McIlroy",
       "score": "-10",
-      "strokes": 273
+      "strokes": null
     },
     {
-      "pos": "3",
-      "name": "Mikael Lindberg",
-      "score": "-9",
-      "strokes": 271
-    },
-    {
-      "pos": "T4",
+      "pos": "T3",
       "name": "Eugenio Chacarra",
       "score": "-8",
-      "strokes": 272
+      "strokes": null
     },
     {
-      "pos": "T4",
+      "pos": "T3",
       "name": "Oliver Lindell",
       "score": "-8",
-      "strokes": 280
+      "strokes": null
     },
     {
-      "pos": "T6",
+      "pos": "T5",
       "name": "Francesco Laporta",
       "score": "-7",
-      "strokes": 273
+      "strokes": null
     },
     {
-      "pos": "T6",
+      "pos": "T5",
       "name": "Jacob Skov Olesen",
       "score": "-7",
-      "strokes": 281
+      "strokes": null
     },
     {
-      "pos": "T6",
+      "pos": "T5",
       "name": "Kristoffer Reitan",
       "score": "-7",
-      "strokes": 276
+      "strokes": null
     },
     {
-      "pos": "T6",
+      "pos": "T5",
+      "name": "Mikael Lindberg",
+      "score": "-7",
+      "strokes": null
+    },
+    {
+      "pos": "T5",
       "name": "Victor Perez",
       "score": "-7",
-      "strokes": 269
+      "strokes": null
     },
     {
       "pos": "10",
       "name": "Dan Bradbury",
       "score": "-6",
-      "strokes": 277
+      "strokes": null
     },
     {
       "pos": "T11",
       "name": "Adrian Meronk",
       "score": "-5",
-      "strokes": 283
+      "strokes": null
     },
     {
       "pos": "T11",
       "name": "Andy Sullivan",
       "score": "-5",
-      "strokes": 283
+      "strokes": null
     },
     {
       "pos": "T11",
       "name": "Calum Hill",
       "score": "-5",
-      "strokes": 283
+      "strokes": null
     },
     {
       "pos": "T11",
       "name": "Hennie Du Plessis",
       "score": "-5",
-      "strokes": 283
+      "strokes": null
     },
     {
       "pos": "T11",
       "name": "Nacho Elvira",
       "score": "-5",
-      "strokes": 283
+      "strokes": null
+    },
+    {
+      "pos": "T16",
+      "name": "Adam Scott",
+      "score": "-4",
+      "strokes": null
     },
     {
       "pos": "T16",
       "name": "Freddy Schott",
       "score": "-4",
-      "strokes": 284
+      "strokes": null
     },
     {
       "pos": "T16",
       "name": "Matt Wallace",
       "score": "-4",
-      "strokes": 284
+      "strokes": null
     },
     {
-      "pos": "T18",
-      "name": "Adam Scott",
-      "score": "-3",
-      "strokes": 277
-    },
-    {
-      "pos": "T18",
+      "pos": "T19",
       "name": "Daniel Hillier",
       "score": "-3",
-      "strokes": 285
+      "strokes": null
     },
     {
-      "pos": "T18",
+      "pos": "T19",
       "name": "David Puig",
       "score": "-3",
-      "strokes": 285
+      "strokes": null
     },
     {
-      "pos": "T18",
+      "pos": "T19",
+      "name": "Jayden Schaper",
+      "score": "-3",
+      "strokes": null
+    },
+    {
+      "pos": "T19",
       "name": "Jon Rahm",
       "score": "-3",
-      "strokes": 285
+      "strokes": null
     },
     {
-      "pos": "T18",
+      "pos": "T19",
       "name": "Kota Kaneko",
       "score": "-3",
-      "strokes": 285
+      "strokes": null
     },
     {
-      "pos": "T23",
+      "pos": "T24",
       "name": "Angel Ayora",
       "score": "-2",
-      "strokes": 286
+      "strokes": null
     },
     {
-      "pos": "T23",
-      "name": "Jayden Schaper",
-      "score": "-2",
-      "strokes": 281
-    },
-    {
-      "pos": "T23",
+      "pos": "T24",
       "name": "Jeff Winther",
       "score": "-2",
-      "strokes": 286
+      "strokes": null
     },
     {
-      "pos": "T23",
+      "pos": "T24",
       "name": "Manuel Elvira",
       "score": "-2",
-      "strokes": 286
+      "strokes": null
     },
     {
       "pos": "T27",
       "name": "Grant Forrest",
       "score": "-1",
-      "strokes": 287
+      "strokes": null
     },
     {
       "pos": "T27",
       "name": "Joe Dean",
       "score": "-1",
-      "strokes": 287
+      "strokes": null
     },
     {
       "pos": "T27",
       "name": "Joost Luiten",
       "score": "-1",
-      "strokes": 287
+      "strokes": null
     },
     {
       "pos": "T27",
       "name": "Niklas Nørgaard",
       "score": "-1",
-      "strokes": 287
+      "strokes": null
     },
     {
       "pos": "T31",
       "name": "Jorge Campillo",
       "score": "E",
-      "strokes": 288
+      "strokes": null
     },
     {
       "pos": "T31",
       "name": "Patrick Reed",
       "score": "E",
-      "strokes": 288
+      "strokes": null
     },
     {
       "pos": "T31",
       "name": "Ryan Fox",
       "score": "E",
-      "strokes": 288
+      "strokes": null
     },
     {
       "pos": "T31",
       "name": "Shaun Norris",
       "score": "E",
-      "strokes": 288
+      "strokes": null
     },
     {
       "pos": "T31",
       "name": "Tommy Fleetwood",
       "score": "E",
-      "strokes": 288
+      "strokes": null
     },
     {
       "pos": "T36",
       "name": "Aaron Rai",
       "score": "+1",
-      "strokes": 289
+      "strokes": null
     },
     {
       "pos": "T36",
       "name": "Marcus Armitage",
       "score": "+1",
-      "strokes": 289
+      "strokes": null
     },
     {
       "pos": "T36",
       "name": "Martin Couvra",
       "score": "+1",
-      "strokes": 289
+      "strokes": null
     },
     {
       "pos": "39",
       "name": "Julien Guerrier",
       "score": "+2",
-      "strokes": 290
+      "strokes": null
     },
     {
       "pos": "T40",
       "name": "Bernd Wiesberger",
       "score": "+3",
-      "strokes": 291
+      "strokes": null
     },
     {
       "pos": "T40",
       "name": "Davis Bryant",
       "score": "+3",
-      "strokes": 291
+      "strokes": null
     },
     {
       "pos": "T40",
       "name": "Frederic Lacroix",
       "score": "+3",
-      "strokes": 291
+      "strokes": null
     },
     {
       "pos": "T43",
       "name": "Adrian Otaegui",
       "score": "+4",
-      "strokes": 292
+      "strokes": null
     },
     {
       "pos": "T43",
       "name": "Yuto Katsuragawa",
       "score": "+4",
-      "strokes": 292
+      "strokes": null
     },
     {
       "pos": "T45",
       "name": "Ewen Ferguson",
       "score": "+5",
-      "strokes": 293
+      "strokes": null
     },
     {
       "pos": "T45",
       "name": "Matthew Jordan",
       "score": "+5",
-      "strokes": 293
+      "strokes": null
     },
     {
       "pos": "T47",
       "name": "Casey Jarvis",
       "score": "+6",
-      "strokes": 294
+      "strokes": null
     },
     {
       "pos": "T47",
       "name": "Gregorio De Leo",
       "score": "+6",
-      "strokes": 294
+      "strokes": null
     },
     {
       "pos": "49",
       "name": "Angel Hidalgo",
       "score": "+9",
-      "strokes": 297
+      "strokes": null
     },
     {
       "pos": "50",
       "name": "Thriston Lawrence",
       "score": "+11",
-      "strokes": 299
+      "strokes": null
     }
   ],
   "ranking": [
@@ -392,13 +392,13 @@
     "players_calculated": 20,
     "eligible_base_count": 20,
     "oliver_partial_rank": 7,
-    "oliver_projected_points": 2341.64,
+    "oliver_projected_points": 2463.14,
     "players": [
       {
         "name": "Eugenio Chacarra",
-        "position": 4,
-        "event_points": 554.5,
-        "total_points": 4798.29,
+        "position": 3,
+        "event_points": 676.0,
+        "total_points": 4919.79,
         "rank": 1
       },
       {
@@ -417,30 +417,30 @@
       },
       {
         "name": "Jayden Schaper",
-        "position": 23,
-        "event_points": 127.8,
-        "total_points": 2573.59,
+        "position": 19,
+        "event_points": 140.4,
+        "total_points": 2586.19,
         "rank": 4
       },
       {
         "name": "Daniel Hillier",
-        "position": 18,
-        "event_points": 144.72,
-        "total_points": 2495.97,
+        "position": 19,
+        "event_points": 140.4,
+        "total_points": 2491.65,
         "rank": 5
       },
       {
         "name": "Jacob Skov Olesen",
-        "position": 6,
-        "event_points": 336.5,
-        "total_points": 2447.99,
+        "position": 5,
+        "event_points": 371.0,
+        "total_points": 2482.49,
         "rank": 6
       },
       {
         "name": "Oliver Lindell",
-        "position": 4,
-        "event_points": 554.5,
-        "total_points": 2341.64,
+        "position": 3,
+        "event_points": 676.0,
+        "total_points": 2463.14,
         "rank": 7
       },
       {
@@ -473,16 +473,16 @@
       },
       {
         "name": "Angel Ayora",
-        "position": 23,
-        "event_points": 127.8,
-        "total_points": 1841.8,
+        "position": 24,
+        "event_points": 126.0,
+        "total_points": 1840.0,
         "rank": 12
       },
       {
         "name": "Francesco Laporta",
-        "position": 6,
-        "event_points": 336.5,
-        "total_points": 1775.12,
+        "position": 5,
+        "event_points": 371.0,
+        "total_points": 1809.62,
         "rank": 13
       },
       {
