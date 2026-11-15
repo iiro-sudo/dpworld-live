@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DP World Tour 2026 – Lindell PGA-seuranta</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1727;color:#eef4fa;font:15px system-ui,Arial}
+main{max-width:1050px;margin:auto;padding:15px}
+h1{font-size:clamp(23px,5vw,34px);margin-bottom:5px}
+h2{font-size:20px;margin-top:28px}
+p{line-height:1.55}.muted{color:#afc0d1}.small{font-size:12px;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:20px 0}
+.card{background:#1b3048;padding:13px;border-radius:12px;min-width:0}
+.card strong{display:block;font-size:clamp(19px,4vw,28px);margin-top:8px;overflow-wrap:anywhere}
+.status{padding:13px;border:1px solid #5d7893;border-radius:10px;background:#182b40;line-height:1.6}
+button{padding:10px 16px;border:0;border-radius:8px;background:#287ca4;color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.65;cursor:wait}
+.tablewrap{overflow-x:auto;border:1px solid #34485f;border-radius:10px}
+table{width:100%;border-collapse:collapse}th,td{padding:10px 8px;text-align:left;border-bottom:1px solid #30445b}
+th{background:#192d43;font-size:12px;color:#bbccdc}td.num,th.num{text-align:right;white-space:nowrap}
+.lindell{background:#205840!important;font-weight:bold}.qualified{background:#192e47}
+.danger{color:#ffcd85}.success{color:#a6f2c4}a{color:#8ed2ff}
+.notice{border-left:3px solid #e4b45d;padding:10px 13px;background:#283042;border-radius:5px}
+footer{margin-top:30px;padding-bottom:30px}
+@media(max-width:550px){main{padding:10px}th,td{padding:8px 5px;font-size:12px}.card{padding:9px}.card strong{font-size:19px}}
+</style>
+</head>
+<body>
+<main>
+<h1>DP World Tour Championship 2026</h1>
+<p class="muted">Oliver Lindell – PGA Tour 2027 -korttiseuranta</p>
+<div class="cards">
+  <div class="card"><span class="muted small">Lindell kilpailussa</span><strong id="lindellScore">–</strong></div>
+  <div class="card"><span class="muted small">Ennustetut R2D-pisteet</span><strong id="lindellPoints">–</strong></div>
+  <div class="card"><span class="muted small">PGA-korttiennuste 14.11.</span><strong id="pgaPosition">–</strong></div>
+</div>
+<div class="status" id="status">Ladataan kilpailutuloksia...</div>
+<p><button id="refreshButton" onclick="refresh()">Tarkista nyt</button> <span class="muted small" id="updated"></span></p>
+<h2 id="leaderboardTitle">Kilpailun tulokset</h2>
+<p class="muted small" id="leaderboardInfo">Ladataan tulostaulukkoa...</p>
+<div class="tablewrap"><table><thead><tr><th>Sija</th><th>Pelaaja</th><th class="num">Tulos</th><th class="num">Lyönnit</th><th class="num">PGA-sija 14.11.*</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+<h2>Laskennallinen pistevertailu</h2>
+<p class="muted small" id="forecastInfo">Odotetaan laskennan tietoja...</p>
+<div class="status" id="lindellAnalysis">Ladataan pistevertailua...</div>
+<div class="tablewrap"><table><thead><tr><th>Vertailusija</th><th>Pelaaja</th><th class="num">Kilpailupisteet</th><th class="num">Yhteensä</th><th class="num">Ero Lindelliin</th></tr></thead><tbody id="forecastTable"></tbody></table></div>
+<p class="notice small">Tämä on <strong>osittainen pistevertailu</strong>, ei virallinen PGA-korttiranking. Vertailussa on vain ne pelaajat, joiden lähtöpisteet ovat laskennan käytettävissä. Korttipaikan varmistumista tai todellista korttisijaa ei voi päätellä tästä taulukosta.</p>
+<h2>PGA Tour -korttiennuste 14.11.2026</h2>
+<p class="muted small">Kolmannen kierroksen jälkeinen historiallinen ennuste. Kortteja jaetaan kymmenen. Alla oleva taulukko ei päivity kilpailun mukana.</p>
+<div class="tablewrap"><table><thead><tr><th>Korttisija</th><th>Pelaaja</th><th class="num">R2D-sija</th><th>Tilanne 14.11.</th></tr></thead><tbody id="cardRanking"></tbody></table></div>
+<footer class="small muted">
+<strong>Lähteet ja päivitykset</strong>
+<p>Kilpailutulokset: Sportradar Golf API. GitHub Actions hakee tulokset ja laskee osittaisen pistevertailun `snapshot.json`-tiedostoon. Netlify julkaisee GitHubiin tallennetut päivitykset.</p>
+<p>Selain tarkistaa tiedoston automaattisesti kahden minuutin välein. Päivitys näkyy GitHub Actionsin ja Netlifyn julkaisun jälkeen.</p>
+<p><a target="_blank" rel="noopener" href="https://www.europeantour.com/dpworld-tour/news/articles/detail/pga-tour-dual-membership-what-s-at-stake-on-the-final-day-of-dp-world-tour-championship/">DP World Tour – PGA-korttiennuste 14.11.2026</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.europeantour.com/dpworld-tour/dp-world-tour-championship-2026/">DP World Tour – kilpailun virallinen sivu</a></p>
+<p>* PGA-sija 14.11. tarkoittaa vanhan korttiennusteen sijoitusta, ei nykyistä korttisijaa.</p>
+</footer>
+</main>
+<script>
+let snapshot=null,lastContent=null,loading=false;
+const $=id=>document.getElementById(id);
+const escapeHtml=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const scoreText=value=>String(value??"–").replace(/-/g,"−");
+const fmt=value=>Number.isFinite(Number(value))?new Intl.NumberFormat("fi-FI",{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(value)):"–";
+function formatDate(value){if(!/^\d{4}-\d{2}-\d{2}$/.test(value||""))return value||"tuntematon";const [y,m,d]=value.split("-");return `${d}.${m}.${y}`;}
+function render(){
+ const players=snapshot.players,ranks=snapshot.ranking,forecast=snapshot.pga_forecast_test;
+ const round=Number(snapshot.round),date=formatDate(snapshot.date);
+ const rankOf=name=>ranks.find(r=>r.name===name)?.rank;
+ const lindell=players.find(p=>p.name==="Oliver Lindell");
+ const oldLindell=ranks.find(r=>r.name==="Oliver Lindell");
+ $("leaderboardTitle").textContent="Kilpailun tulokset";
+ $("leaderboardInfo").textContent=`Tulostiedoston päiväys ${date}. Pelaajia: ${players.length}. Kierroskenttä: ${round}. Kilpailusijoitukset päivittyvät Sportradarista. PGA-sijat viimeisessä sarakkeessa ovat 14.11. ennusteesta.`;
+ $("leaderboard").innerHTML=players.map(p=>{const rank=rankOf(p.name);return `<tr class="${p.name==="Oliver Lindell"?"lindell":rank&&rank<=10?"qualified":""}"><td>${escapeHtml(p.pos)}</td><td>${escapeHtml(p.name)}</td><td class="num">${escapeHtml(scoreText(p.score))}</td><td class="num">${escapeHtml(p.strokes)}</td><td class="num">${rank??""}</td></tr>`;}).join("");
+ $("lindellScore").textContent=lindell?`${lindell.pos} · ${scoreText(lindell.score)}`:"Ei tietoa";
+ $("pgaPosition").textContent=oldLindell?`${oldLindell.rank} / 10`:"Ei tietoa";
+ $("pgaPosition").className="muted";
+ $("cardRanking").innerHTML=ranks.map(r=>`<tr class="${r.name==="Oliver Lindell"?"lindell":r.rank<=10?"qualified":""}"><td>${escapeHtml(r.rank)}</td><td>${escapeHtml(r.name)}</td><td class="num">${escapeHtml(r.r2d)}</td><td class="${r.rank<=10?"success":"danger"}">${r.rank<=10?"Korttipaikalla":"Ulkopuolella"}</td></tr>`).join("");
+ const valid=forecast&&forecast.status==="partial"&&Array.isArray(forecast.players);
+ const rows=valid?forecast.players.filter(p=>p&&typeof p.name==="string"&&Number.isFinite(Number(p.total_points))):[];
+ const oliver=rows.find(p=>p.name==="Oliver Lindell");
+ if(!valid||!oliver){
+   $("lindellPoints").textContent="–";
+   $("forecastInfo").textContent="Pistevertailun testiaineistoa ei ole vielä saatavilla. Vanha korttiennuste näkyy alempana.";
+   $("lindellAnalysis").textContent="Laskennan tuloksia odotetaan. Tarkista GitHub Actionsin Calculate PGA card forecast -vaihe.";
+   $("forecastTable").innerHTML="";
+   return;
+ }
+ const oliverPoints=Number(oliver.total_points);
+ $("lindellPoints").textContent=fmt(oliverPoints);
+ const calculated=Number(forecast.players_calculated)||rows.length;
+ $("forecastInfo").textContent=`Laskennassa mukana ${calculated} pelaajaa. Pisteet päivittyvät snapshot.json-tiedostosta kilpailusijoitusten muuttuessa. Vertailusija ei ole PGA-korttisija.`;
+ const sorted=[...rows].sort((a,b)=>Number(b.total_points)-Number(a.total_points));
+ const partialRank=sorted.findIndex(p=>p.name==="Oliver Lindell")+1;
+ const ahead=sorted.filter(p=>Number(p.total_points)>oliverPoints).length;
+ $("lindellAnalysis").innerHTML=`<p><strong>Oliver Lindell:</strong> ${fmt(oliverPoints)} ennustettua Race to Dubai -pistettä.</p><p>Tunnetuista vertailupelaajista ${ahead} on Lindellin edellä. Lindellin sijoitus tässä <strong>osittaisessa</strong> pistevertailussa on ${partialRank}/${sorted.length}.</p><p class="small muted">Pistevertailu ei vielä huomioi kaikkia korttiehdokkaita, joten varsinaista PGA-korttisijaa tai eroa kymmenenteen korttipaikkaan ei voi vahvistaa.</p>`;
+ $("forecastTable").innerHTML=sorted.map((p,i)=>{const diff=Number(p.total_points)-oliverPoints;const diffText=Math.abs(diff)<0.005?"0,00":`${diff>0?"+":"−"}${fmt(Math.abs(diff))}`;return `<tr class="${p.name==="Oliver Lindell"?"lindell":""}"><td>${i+1}</td><td>${escapeHtml(p.name)}</td><td class="num">${fmt(p.event_points)}</td><td class="num">${fmt(p.total_points)}</td><td class="num">${diffText}</td></tr>`;}).join("");
+}
+async function refresh(){
+ if(loading)return;loading=true;$("refreshButton").disabled=true;$("updated").textContent=" Tarkistetaan...";
+ try{
+  const response=await fetch("/snapshot.json?t="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const raw=await response.text(),next=JSON.parse(raw);
+  if(!Array.isArray(next.players)||!Array.isArray(next.ranking)||typeof next.date!=="string"||!Number.isInteger(next.round))throw new Error("Tulostiedoston rakenne on virheellinen");
+  const changed=raw!==lastContent,firstLoad=lastContent===null;
+  snapshot=next;lastContent=raw;if(changed)render();
+  const message=firstLoad?"Tulostiedosto ladattu onnistuneesti.":changed?"Tulostiedosto on muuttunut edellisen tarkistuksen jälkeen.":"Ei muutoksia edelliseen tarkistukseen.";
+  $("status").textContent=`Kilpailutulokset: ${formatDate(snapshot.date)}. ${message} Sportradar-pohjainen osittainen pistevertailu päivittyy tulosten mukana. PGA-korttiranking 14.11. on erillinen historiallinen ennuste.`;
+  $("updated").textContent=" Tarkistettu "+new Date().toLocaleTimeString("fi-FI");
+ }catch(error){$("status").textContent="Tietojen tarkistus epäonnistui: "+error.message+". Näytetään viimeksi ladatut tiedot, jos saatavilla.";$("updated").textContent=" Tarkistus epäonnistui "+new Date().toLocaleTimeString("fi-FI");}
+ finally{loading=false;$("refreshButton").disabled=false;}
+}
+refresh();setInterval(refresh,120000);
+</script>
+</body>
+</html>
