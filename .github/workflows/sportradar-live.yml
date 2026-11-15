@@ -1,0 +1,187 @@
+name: Sportradar Live Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sportradar-live
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update leaderboard
+        env:
+          SPORTRADAR_API_KEY: ${{ secrets.SPORTRADAR_API_KEY }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.request
+          from collections import Counter
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          now = datetime.now(timezone.utc)
+          if os.environ.get('EVENT_NAME') == 'schedule':
+              if now.date().isoformat() != '2026-11-15' or not (5 <= now.hour < 20):
+                  print('Outside final-day update window')
+                  sys.exit(0)
+
+          key = os.environ.get('SPORTRADAR_API_KEY')
+          if not key:
+              sys.exit('Missing SPORTRADAR_API_KEY')
+
+          tournament_id = '5cb4d159-8ee1-4239-b8cc-de4746e6d1d0'
+          url = (
+              'https://api.sportradar.com/golf/trial/euro/v3/en/2026/'
+              f'tournaments/{tournament_id}/leaderboard.json'
+          )
+          request = urllib.request.Request(url, headers={
+              'x-api-key': key,
+              'accept': 'application/json'
+          })
+          with urllib.request.urlopen(request, timeout=30) as response:
+              data = json.load(response)
+
+          if data.get('id') != tournament_id:
+              sys.exit('Wrong tournament')
+          players = data.get('leaderboard')
+          if not isinstance(players, list) or len(players) != 50:
+              sys.exit('Expected 50 leaderboard players')
+
+          aliases = {
+              'Eugenio Lopez-Chacarra': 'Eugenio Chacarra',
+              'Jayden Trey Schaper': 'Jayden Schaper',
+              'Niklas Nørgaard Møller': 'Niklas Nørgaard',
+              'Angel Ayora Fanegas': 'Angel Ayora',
+          }
+          positions = []
+          for player in players:
+              pos = player.get('position')
+              if type(pos) is not int or not 1 <= pos <= 50:
+                  sys.exit('Invalid position')
+              positions.append(pos)
+          counts = Counter(positions)
+          result = []
+          for player in players:
+              name = player.get('name') or (
+                  (player.get('first_name') or '') + ' ' +
+                  (player.get('last_name') or '')
+              ).strip()
+              name = aliases.get(name, name)
+              if not name:
+                  sys.exit('Missing player name')
+              position = player['position']
+              score = player.get('score')
+              if type(score) is not int:
+                  sys.exit(f'Invalid score for {name}')
+              score_text = 'E' if score == 0 else f'{score:+d}' if score > 0 else str(score)
+              entry = {
+                  'pos': ('T' if counts[position] > 1 else '') + str(position),
+                  'name': name,
+                  'score': score_text,
+                  # Sportradar strokes may reflect a partial round; do not
+                  # publish it as a verified 72-hole total.
+                  'strokes': None,
+              }
+              result.append(entry)
+
+          if len({p['name'] for p in result}) != len(result):
+              sys.exit('Duplicate player names')
+          if not any(p['name'] == 'Oliver Lindell' for p in result):
+              sys.exit('Oliver Lindell missing')
+          result.sort(key=lambda p: (int(p['pos'].lstrip('T')), p['name']))
+
+          path = Path('snapshot.json')
+          snapshot = json.loads(path.read_text(encoding='utf-8'))
+          snapshot['players'] = result
+          snapshot['date'] = now.date().isoformat()
+          snapshot['round'] = 4 if now.date().isoformat() == '2026-11-15' else snapshot.get('round', 3)
+          path.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('Players:', len(result))
+          print('Oliver:', next(p for p in result if p['name'] == 'Oliver Lindell'))
+          print('Unverified stroke totals hidden')
+          PY
+
+      - name: Calculate PGA card forecast
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from korttiennuste import calculate, BASE_POINTS
+
+          path = Path('snapshot.json')
+          snapshot = json.loads(path.read_text(encoding='utf-8'))
+          forecast = calculate(snapshot['players'], BASE_POINTS)
+          lindell = next(p for p in forecast if p['name'] == 'Oliver Lindell')
+          # User assumption: Lindberg receives one of the ten cards.
+          # He is not assigned invented starting points or a precise rank.
+          lindberg_assumed = any(
+              p['name'] == 'Mikael Lindberg'
+              for p in snapshot['players']
+          )
+          ahead_known = sum(
+              p['total_points'] > lindell['total_points']
+              for p in forecast
+              if p['name'] != 'Oliver Lindell'
+          )
+          assumed_rank_minimum = (
+              ahead_known + 1 + int(lindberg_assumed)
+          )
+          snapshot['pga_forecast_test'] = {
+              'status': 'partial',
+              'assumptions': {
+                  'mikael_lindberg_card': lindberg_assumed,
+                  'note': 'Lindberg card assumed by user, not confirmed'
+              },
+              'oliver_known_ahead': ahead_known,
+              'oliver_rank_lower_bound_with_assumption': assumed_rank_minimum,
+              'oliver_card_projection': 'undetermined',
+              'players_calculated': len(forecast),
+              'eligible_base_count': len(BASE_POINTS),
+              'oliver_partial_rank': lindell['rank'],
+              'oliver_projected_points': lindell['total_points'],
+              'players': forecast,
+              'warning': 'Partial ranking only; missing eligible players may change card positions.'
+          }
+          path.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('Partial ranking:', len(forecast))
+          print('Oliver:', lindell)
+          print('Lindberg assumed card:', lindberg_assumed)
+          print('Oliver minimum rank with assumption:', assumed_rank_minimum)
+          print('Full PGA card ranking remains undetermined')
+          PY
+
+      - name: Commit updated results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- snapshot.json; then
+            echo "No changes"
+            exit 0
+          fi
+          git add snapshot.json
+          git commit -m "Update leaderboard and partial PGA forecast"
+          for attempt in 1 2 3 4 5; do
+            echo "Push attempt $attempt"
+            git fetch origin main
+            git rebase origin/main || exit 1
+            if git push origin HEAD:main; then
+              echo "Successfully updated snapshot.json"
+              exit 0
+            fi
+            sleep 3
+          done
+          exit 1
