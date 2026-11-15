@@ -2,8 +2,8 @@
 from collections import Counter
 from decimal import Decimal, ROUND_HALF_UP
 
-# DP World Tour Championship 2026:
-# virallinen 12 000 pisteen jakotaulukko, sijat 1–50.
+# DP World Tour Championship 2026
+# Race to Dubai -pisteet sijoille 1–50.
 POINTS = [
     2000, 1335, 752, 600, 509, 420, 359, 300,
     267, 240, 220, 206.4, 193.2, 183.6, 176.4,
@@ -14,9 +14,13 @@ POINTS = [
     74.4, 72, 69.6, 67.2, 64.8, 62.4, 60, 57.6
 ]
 
-# Virallinen PGA Tour -kelpoisten lista 8.11.2026.
-# Ei vielä täydellinen: alemmat ehdokkaat ja
-# Mikael Lindberg pitää täydentää.
+# PGA Tour -korttirankingin lähtöpisteet
+# ennen finaalikilpailua 8.11.2026.
+#
+# HUOM: Lista on keskeneräinen.
+# Puuttuvat pelaajat on täydennettävä
+# ennen ennusteen julkaisemista.
+
 BASE_POINTS = {
     "Eugenio Chacarra": 4243.79,
     "Patrick Reed": 3528.62,
@@ -40,9 +44,23 @@ BASE_POINTS = {
     "Marcus Armitage": 1357.63
 }
 
+
 def calculate(players, base_points):
+    """
+    Laskee pelaajien ennustetut kokonaispisteet
+    kilpailun tämänhetkisen sijoituksen perusteella.
+
+    Tasasijoissa jaetaan kyseisten sijoitusten
+    pisteiden keskiarvo.
+
+    HUOM: Tuloksena on osittainen ranking, jos
+    base_points ei sisällä kaikkia korttiehdokkaita.
+    """
+
     if len(players) != 50:
-        raise ValueError("Odotettiin 50 pelaajaa")
+        raise ValueError(
+            f"Odotettiin 50 pelaajaa, saatiin {len(players)}"
+        )
 
     positions = [
         int(str(p["pos"]).lstrip("T"))
@@ -57,10 +75,10 @@ def calculate(players, base_points):
         count = counts[position]
 
         if position < 1 or position + count - 1 > 50:
-            raise ValueError("Virheellinen sijoitus")
+            raise ValueError(
+                f"Virheellinen sijoitus: {name}, {position}"
+            )
 
-        # Tasasijoissa jaetaan kyseisten
-        # sijoitusten pisteiden keskiarvo.
         earned = sum(
             Decimal(str(POINTS[i - 1]))
             for i in range(position, position + count)
@@ -69,12 +87,19 @@ def calculate(players, base_points):
         if name not in base_points:
             continue
 
-        total = Decimal(str(base_points[name])) + earned
+        total = (
+            Decimal(str(base_points[name])) + earned
+        )
 
         result.append({
             "name": name,
             "position": position,
-            "event_points": float(earned),
+            "event_points": float(
+                earned.quantize(
+                    Decimal("0.01"),
+                    rounding=ROUND_HALF_UP
+                )
+            ),
             "total_points": float(
                 total.quantize(
                     Decimal("0.01"),
@@ -84,7 +109,10 @@ def calculate(players, base_points):
         })
 
     result.sort(
-        key=lambda p: -p["total_points"]
+        key=lambda p: (
+            -p["total_points"],
+            p["name"]
+        )
     )
 
     for index, player in enumerate(result, 1):
