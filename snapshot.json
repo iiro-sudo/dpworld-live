@@ -52,6 +52,12 @@
     },
     {
       "pos": "T8",
+      "name": "Jacob Skov Olesen",
+      "score": "-4",
+      "strokes": 221
+    },
+    {
+      "pos": "T8",
       "name": "Jayden Schaper",
       "score": "-4",
       "strokes": 212
@@ -63,244 +69,238 @@
       "strokes": 212
     },
     {
-      "pos": "T11",
+      "pos": "T12",
+      "name": "Adrian Meronk",
+      "score": "-3",
+      "strokes": 229
+    },
+    {
+      "pos": "T12",
       "name": "Freddy Schott",
       "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T11",
-      "name": "Jacob Skov Olesen",
-      "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T11",
-      "name": "Joe Dean",
-      "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T11",
-      "name": "Jon Rahm",
-      "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T11",
-      "name": "Matt Wallace",
-      "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T11",
-      "name": "Nacho Elvira",
-      "score": "-3",
-      "strokes": 213
-    },
-    {
-      "pos": "T17",
-      "name": "Adrian Meronk",
-      "score": "-2",
-      "strokes": 214
-    },
-    {
-      "pos": "T17",
-      "name": "Daniel Hillier",
-      "score": "-2",
-      "strokes": 214
-    },
-    {
-      "pos": "T17",
-      "name": "David Puig",
-      "score": "-2",
-      "strokes": 218
-    },
-    {
-      "pos": "T17",
-      "name": "Grant Forrest",
-      "score": "-2",
-      "strokes": 223
-    },
-    {
-      "pos": "T17",
-      "name": "Niklas Nørgaard",
-      "score": "-2",
-      "strokes": 214
-    },
-    {
-      "pos": "T22",
-      "name": "Hennie Du Plessis",
-      "score": "-1",
-      "strokes": 215
-    },
-    {
-      "pos": "T22",
-      "name": "Jeff Winther",
-      "score": "-1",
-      "strokes": 215
-    },
-    {
-      "pos": "T22",
-      "name": "Oliver Lindell",
-      "score": "-1",
-      "strokes": 215
-    },
-    {
-      "pos": "T25",
-      "name": "Andy Sullivan",
-      "score": "E",
-      "strokes": 225
-    },
-    {
-      "pos": "T25",
-      "name": "Calum Hill",
-      "score": "E",
-      "strokes": 220
-    },
-    {
-      "pos": "T25",
-      "name": "Joost Luiten",
-      "score": "E",
-      "strokes": 225
-    },
-    {
-      "pos": "T28",
-      "name": "Kota Kaneko",
-      "score": "+1",
       "strokes": 226
     },
     {
-      "pos": "T28",
-      "name": "Marcus Armitage",
-      "score": "+1",
-      "strokes": 230
-    },
-    {
-      "pos": "T30",
-      "name": "Davis Bryant",
-      "score": "+2",
-      "strokes": 246
-    },
-    {
-      "pos": "T30",
-      "name": "Julien Guerrier",
-      "score": "+2",
-      "strokes": 246
-    },
-    {
-      "pos": "T30",
-      "name": "Tommy Fleetwood",
-      "score": "+2",
+      "pos": "T12",
+      "name": "Grant Forrest",
+      "score": "-3",
       "strokes": 241
     },
     {
-      "pos": "T33",
+      "pos": "T12",
+      "name": "Hennie Du Plessis",
+      "score": "-3",
+      "strokes": 236
+    },
+    {
+      "pos": "T12",
+      "name": "Jeff Winther",
+      "score": "-3",
+      "strokes": 229
+    },
+    {
+      "pos": "T12",
+      "name": "Joe Dean",
+      "score": "-3",
+      "strokes": 217
+    },
+    {
+      "pos": "T12",
+      "name": "Joost Luiten",
+      "score": "-3",
+      "strokes": 245
+    },
+    {
+      "pos": "T12",
+      "name": "Matt Wallace",
+      "score": "-3",
+      "strokes": 217
+    },
+    {
+      "pos": "T12",
+      "name": "Nacho Elvira",
+      "score": "-3",
+      "strokes": 222
+    },
+    {
+      "pos": "T21",
+      "name": "Andy Sullivan",
+      "score": "-2",
+      "strokes": 242
+    },
+    {
+      "pos": "T21",
+      "name": "Calum Hill",
+      "score": "-2",
+      "strokes": 237
+    },
+    {
+      "pos": "T21",
+      "name": "Daniel Hillier",
+      "score": "-2",
+      "strokes": 230
+    },
+    {
+      "pos": "T21",
+      "name": "David Puig",
+      "score": "-2",
+      "strokes": 237
+    },
+    {
+      "pos": "T21",
+      "name": "Niklas Nørgaard",
+      "score": "-2",
+      "strokes": 230
+    },
+    {
+      "pos": "T21",
+      "name": "Oliver Lindell",
+      "score": "-2",
+      "strokes": 237
+    },
+    {
+      "pos": "T27",
+      "name": "Jon Rahm",
+      "score": "-1",
+      "strokes": 228
+    },
+    {
+      "pos": "T27",
+      "name": "Kota Kaneko",
+      "score": "-1",
+      "strokes": 247
+    },
+    {
+      "pos": "T29",
+      "name": "Angel Ayora",
+      "score": "E",
+      "strokes": 276
+    },
+    {
+      "pos": "T29",
+      "name": "Manuel Elvira",
+      "score": "E",
+      "strokes": 272
+    },
+    {
+      "pos": "T31",
       "name": "Aaron Rai",
+      "score": "+1",
+      "strokes": 273
+    },
+    {
+      "pos": "T31",
+      "name": "Jorge Campillo",
+      "score": "+1",
+      "strokes": 273
+    },
+    {
+      "pos": "T31",
+      "name": "Julien Guerrier",
+      "score": "+1",
+      "strokes": 268
+    },
+    {
+      "pos": "T31",
+      "name": "Marcus Armitage",
+      "score": "+1",
+      "strokes": 253
+    },
+    {
+      "pos": "T35",
+      "name": "Davis Bryant",
+      "score": "+2",
+      "strokes": 269
+    },
+    {
+      "pos": "T35",
+      "name": "Ryan Fox",
+      "score": "+2",
+      "strokes": 269
+    },
+    {
+      "pos": "T35",
+      "name": "Tommy Fleetwood",
+      "score": "+2",
+      "strokes": 266
+    },
+    {
+      "pos": "T38",
+      "name": "Martin Couvra",
       "score": "+3",
       "strokes": 255
     },
     {
-      "pos": "T33",
-      "name": "Adrian Otaegui",
+      "pos": "T38",
+      "name": "Matthew Jordan",
       "score": "+3",
-      "strokes": 235
+      "strokes": 279
     },
     {
-      "pos": "T33",
-      "name": "Manuel Elvira",
-      "score": "+3",
-      "strokes": 251
-    },
-    {
-      "pos": "T33",
-      "name": "Martin Couvra",
-      "score": "+3",
-      "strokes": 232
-    },
-    {
-      "pos": "T33",
+      "pos": "T38",
       "name": "Patrick Reed",
       "score": "+3",
-      "strokes": 239
+      "strokes": 259
     },
     {
-      "pos": "T33",
+      "pos": "T38",
       "name": "Shaun Norris",
       "score": "+3",
-      "strokes": 235
+      "strokes": 255
     },
     {
-      "pos": "T33",
-      "name": "Yuto Katsuragawa",
-      "score": "+3",
-      "strokes": 242
-    },
-    {
-      "pos": "T40",
-      "name": "Bernd Wiesberger",
-      "score": "+4",
-      "strokes": 252
-    },
-    {
-      "pos": "T40",
-      "name": "Ewen Ferguson",
-      "score": "+4",
-      "strokes": 256
-    },
-    {
-      "pos": "T40",
-      "name": "Gregorio De Leo",
-      "score": "+4",
-      "strokes": 240
-    },
-    {
-      "pos": "T40",
-      "name": "Jorge Campillo",
-      "score": "+4",
-      "strokes": 252
-    },
-    {
-      "pos": "T40",
-      "name": "Ryan Fox",
-      "score": "+4",
-      "strokes": 252
-    },
-    {
-      "pos": "45",
-      "name": "Matthew Jordan",
-      "score": "+5",
-      "strokes": 261
-    },
-    {
-      "pos": "T46",
-      "name": "Angel Ayora",
-      "score": "+6",
-      "strokes": 262
-    },
-    {
-      "pos": "T46",
+      "pos": "42",
       "name": "Frederic Lacroix",
+      "score": "+4",
+      "strokes": 287
+    },
+    {
+      "pos": "T43",
+      "name": "Adrian Otaegui",
+      "score": "+5",
+      "strokes": 257
+    },
+    {
+      "pos": "T43",
+      "name": "Bernd Wiesberger",
+      "score": "+5",
+      "strokes": 272
+    },
+    {
+      "pos": "T43",
+      "name": "Ewen Ferguson",
+      "score": "+5",
+      "strokes": 277
+    },
+    {
+      "pos": "T43",
+      "name": "Yuto Katsuragawa",
+      "score": "+5",
+      "strokes": 269
+    },
+    {
+      "pos": "47",
+      "name": "Casey Jarvis",
       "score": "+6",
-      "strokes": 270
+      "strokes": 294
     },
     {
       "pos": "48",
-      "name": "Casey Jarvis",
-      "score": "+7",
-      "strokes": 274
+      "name": "Gregorio De Leo",
+      "score": "+8",
+      "strokes": 264
     },
     {
       "pos": "49",
       "name": "Angel Hidalgo",
-      "score": "+10",
-      "strokes": 270
+      "score": "+9",
+      "strokes": 292
     },
     {
       "pos": "50",
       "name": "Thriston Lawrence",
-      "score": "+13",
-      "strokes": 280
+      "score": "+11",
+      "strokes": 299
     }
   ],
   "ranking": [
