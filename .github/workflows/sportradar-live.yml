@@ -260,6 +260,7 @@ jobs:
           PY
 
 
+      
       - name: Commit updated results
         run: |
           if git diff --quiet -- snapshot.json; then
@@ -272,4 +273,8 @@ jobs:
 
           git add snapshot.json
           git commit -m "Update DP World Tour leaderboard"
-          git push
+
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+
