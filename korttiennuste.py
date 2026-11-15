@@ -119,3 +119,40 @@ def calculate(players, base_points):
         player["rank"] = index
 
     return result
+    
+def compare_with_lindell(forecast):
+    oliver = next(
+        p for p in forecast
+        if p["name"] == "Oliver Lindell"
+    )
+
+    oliver_points = oliver["total_points"]
+
+    comparisons = []
+
+    for player in forecast:
+        comparisons.append({
+            "name": player["name"],
+            "rank_partial": player["rank"],
+            "total_points": player["total_points"],
+            "difference_to_oliver": round(
+                player["total_points"] - oliver_points,
+                2
+            ),
+            "ahead_of_oliver": (
+                player["total_points"] > oliver_points
+            )
+        })
+
+    return {
+        "oliver_points": oliver_points,
+        "oliver_partial_rank": oliver["rank"],
+        "comparisons": comparisons,
+        "complete": False,
+        "missing_candidates": [
+            "Mikael Lindberg",
+            "Calum Hill",
+            "David Puig"
+        ]
+    }
+
