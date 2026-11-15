@@ -6,13 +6,13 @@
       "pos": "1",
       "name": "Tyrrell Hatton",
       "score": "-12",
-      "strokes": 244
+      "strokes": 248
     },
     {
       "pos": "T2",
       "name": "Mikael Lindberg",
       "score": "-9",
-      "strokes": 251
+      "strokes": 255
     },
     {
       "pos": "T2",
@@ -27,31 +27,31 @@
       "strokes": 280
     },
     {
-      "pos": "5",
+      "pos": "T5",
+      "name": "Eugenio Chacarra",
+      "score": "-7",
+      "strokes": 260
+    },
+    {
+      "pos": "T5",
       "name": "Kristoffer Reitan",
       "score": "-7",
       "strokes": 260
     },
     {
-      "pos": "T6",
+      "pos": "T7",
       "name": "Dan Bradbury",
       "score": "-6",
       "strokes": 261
     },
     {
-      "pos": "T6",
-      "name": "Eugenio Chacarra",
-      "score": "-6",
-      "strokes": 258
-    },
-    {
-      "pos": "T6",
+      "pos": "T7",
       "name": "Francesco Laporta",
       "score": "-6",
-      "strokes": 258
+      "strokes": 261
     },
     {
-      "pos": "T6",
+      "pos": "T7",
       "name": "Victor Perez",
       "score": "-6",
       "strokes": 250
@@ -96,49 +96,49 @@
       "pos": "T15",
       "name": "Matt Wallace",
       "score": "-4",
-      "strokes": 263
+      "strokes": 268
     },
     {
-      "pos": "T17",
+      "pos": "T15",
+      "name": "Nacho Elvira",
+      "score": "-4",
+      "strokes": 272
+    },
+    {
+      "pos": "T18",
       "name": "Daniel Hillier",
       "score": "-3",
-      "strokes": 277
+      "strokes": 280
     },
     {
-      "pos": "T17",
+      "pos": "T18",
       "name": "David Puig",
       "score": "-3",
       "strokes": 285
     },
     {
-      "pos": "T17",
+      "pos": "T18",
       "name": "Freddy Schott",
       "score": "-3",
       "strokes": 277
     },
     {
-      "pos": "T17",
+      "pos": "T18",
       "name": "Jayden Schaper",
       "score": "-3",
       "strokes": 264
     },
     {
-      "pos": "T17",
+      "pos": "T18",
       "name": "Jon Rahm",
       "score": "-3",
       "strokes": 277
     },
     {
-      "pos": "T17",
+      "pos": "T18",
       "name": "Kota Kaneko",
       "score": "-3",
       "strokes": 285
-    },
-    {
-      "pos": "T17",
-      "name": "Nacho Elvira",
-      "score": "-3",
-      "strokes": 269
     },
     {
       "pos": "T24",
@@ -168,7 +168,7 @@
       "pos": "T27",
       "name": "Joe Dean",
       "score": "-1",
-      "strokes": 266
+      "strokes": 271
     },
     {
       "pos": "T27",
@@ -177,37 +177,37 @@
       "strokes": 287
     },
     {
-      "pos": "T27",
-      "name": "Niklas Nørgaard",
-      "score": "-1",
-      "strokes": 279
-    },
-    {
-      "pos": "T31",
+      "pos": "T30",
       "name": "Jorge Campillo",
       "score": "E",
       "strokes": 288
     },
     {
-      "pos": "T31",
+      "pos": "T30",
+      "name": "Niklas Nørgaard",
+      "score": "E",
+      "strokes": 283
+    },
+    {
+      "pos": "T30",
       "name": "Patrick Reed",
       "score": "E",
       "strokes": 288
     },
     {
-      "pos": "T31",
+      "pos": "T30",
       "name": "Ryan Fox",
       "score": "E",
       "strokes": 288
     },
     {
-      "pos": "T31",
+      "pos": "T30",
       "name": "Shaun Norris",
       "score": "E",
       "strokes": 288
     },
     {
-      "pos": "T31",
+      "pos": "T30",
       "name": "Tommy Fleetwood",
       "score": "E",
       "strokes": 288
@@ -379,5 +379,155 @@
       "name": "Dan Bradbury",
       "r2d": 22
     }
-  ]
+  ],
+  "pga_forecast_test": {
+    "status": "partial",
+    "players_calculated": 20,
+    "eligible_base_count": 20,
+    "oliver_partial_rank": 6,
+    "oliver_projected_points": 2387.14,
+    "players": [
+      {
+        "name": "Eugenio Chacarra",
+        "position": 5,
+        "event_points": 464.5,
+        "total_points": 4708.29,
+        "rank": 1
+      },
+      {
+        "name": "Patrick Reed",
+        "position": 30,
+        "event_points": 100.2,
+        "total_points": 3628.82,
+        "rank": 2
+      },
+      {
+        "name": "Casey Jarvis",
+        "position": 47,
+        "event_points": 63.6,
+        "total_points": 2956.58,
+        "rank": 3
+      },
+      {
+        "name": "Jayden Schaper",
+        "position": 18,
+        "event_points": 142.8,
+        "total_points": 2588.59,
+        "rank": 4
+      },
+      {
+        "name": "Daniel Hillier",
+        "position": 18,
+        "event_points": 142.8,
+        "total_points": 2494.05,
+        "rank": 5
+      },
+      {
+        "name": "Oliver Lindell",
+        "position": 4,
+        "event_points": 600.0,
+        "total_points": 2387.14,
+        "rank": 6
+      },
+      {
+        "name": "Jacob Skov Olesen",
+        "position": 10,
+        "event_points": 208.64,
+        "total_points": 2320.13,
+        "rank": 7
+      },
+      {
+        "name": "Andy Sullivan",
+        "position": 10,
+        "event_points": 208.64,
+        "total_points": 2186.51,
+        "rank": 8
+      },
+      {
+        "name": "Bernd Wiesberger",
+        "position": 40,
+        "event_points": 79.2,
+        "total_points": 2101.79,
+        "rank": 9
+      },
+      {
+        "name": "Joe Dean",
+        "position": 27,
+        "event_points": 115.2,
+        "total_points": 1873.96,
+        "rank": 10
+      },
+      {
+        "name": "Angel Ayora",
+        "position": 24,
+        "event_points": 126.0,
+        "total_points": 1840.0,
+        "rank": 11
+      },
+      {
+        "name": "Nacho Elvira",
+        "position": 15,
+        "event_points": 169.2,
+        "total_points": 1822.77,
+        "rank": 12
+      },
+      {
+        "name": "Dan Bradbury",
+        "position": 7,
+        "event_points": 308.67,
+        "total_points": 1772.73,
+        "rank": 13
+      },
+      {
+        "name": "Francesco Laporta",
+        "position": 7,
+        "event_points": 308.67,
+        "total_points": 1747.29,
+        "rank": 14
+      },
+      {
+        "name": "Hennie Du Plessis",
+        "position": 10,
+        "event_points": 208.64,
+        "total_points": 1699.65,
+        "rank": 15
+      },
+      {
+        "name": "Angel Hidalgo",
+        "position": 49,
+        "event_points": 60.0,
+        "total_points": 1653.72,
+        "rank": 16
+      },
+      {
+        "name": "Shaun Norris",
+        "position": 30,
+        "event_points": 100.2,
+        "total_points": 1537.26,
+        "rank": 17
+      },
+      {
+        "name": "Davis Bryant",
+        "position": 40,
+        "event_points": 79.2,
+        "total_points": 1484.25,
+        "rank": 18
+      },
+      {
+        "name": "Marcus Armitage",
+        "position": 36,
+        "event_points": 88.8,
+        "total_points": 1446.43,
+        "rank": 19
+      },
+      {
+        "name": "Thriston Lawrence",
+        "position": 50,
+        "event_points": 57.6,
+        "total_points": 1418.7,
+        "rank": 20
+      }
+    ],
+    "warning": "Partial ranking only. Missing eligible players may change the PGA card positions."
+  }
 }
